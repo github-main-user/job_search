@@ -19,27 +19,25 @@ class Vacancy:
 
     # VALIDATION
     @staticmethod
-    def __validate_str(value: str, field_name: str):
+    def __validate_str(value: str, field_name: str) -> str:
         """Проверяет, является ли переданный объект непустой строкой."""
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"Поле {field_name} должно быть непустой строкой.")
         return value.strip()
 
     @staticmethod
-    def __validate_salary(value: int):
+    def __validate_salary(value: int) -> int:
         """Проверяет, указана ли зарплата, и является ли она положительным числом"""
         if not isinstance(value, int) or value < 0:
             raise ValueError("Зарплата должна быть положительным числом.")
         return value
 
     @staticmethod
-    def __validate_url(value: str):
+    def __validate_url(value: str) -> str:
         """Проверяет переданный URL на корректность с помощью regex."""
         import re
 
-        url_pattern = re.compile(
-            r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$"
-        )
+        url_pattern = re.compile(r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$")
         if not isinstance(value, str) or not url_pattern.match(value):
             raise ValueError("Некорректный URL.")
         return value.strip()
@@ -49,9 +47,7 @@ class Vacancy:
     # ==
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Vacancy):
-            raise TypeError(
-                f"Операция не поддерживается между {type(self)} и {type(other)}"
-            )
+            raise TypeError(f"Операция не поддерживается между {type(self)} и {type(other)}")
         return self.salary == other.salary
 
     # !=
@@ -61,9 +57,7 @@ class Vacancy:
     # <
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, Vacancy):
-            raise TypeError(
-                f"Операция не поддерживается между {type(self)} и {type(other)}"
-            )
+            raise TypeError(f"Операция не поддерживается между {type(self)} и {type(other)}")
         return self.salary < other.salary
 
     # <=
