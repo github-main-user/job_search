@@ -28,7 +28,7 @@ class Vacancy:
         """Проверяет переданный URL на корректность с помощью regex."""
         import re
 
-        url_pattern = re.compile(r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$")
+        url_pattern = re.compile(r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$")
         if not isinstance(value, str) or not url_pattern.match(value):
             raise ValueError("Некорректный URL.")
         return value.strip()
@@ -76,3 +76,17 @@ class Vacancy:
     # >=
     def __ge__(self, other: object) -> bool:
         return not self <= other
+
+    # GENERAL METHODS
+
+    @classmethod
+    def cast_to_object_list(cls, vacancies_json: list[dict]) -> list["Vacancy"]:
+        return [
+            cls(
+                name=vacancy.get("name", ""),
+                url=vacancy.get("url", ""),
+                salary=vacancy.get("salary", {}).get("from"),
+                requirement=vacancy.get("snippet", {}).get("requirement", ""),
+            )
+            for vacancy in vacancies_json
+        ]
