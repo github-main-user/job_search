@@ -1,36 +1,27 @@
 class Vacancy:
     """Класс описывает вакансию, при инициализации валидирует аттрибуты."""
 
-    __slots__ = ("name", "area_name", "salary", "url", "requirement")
+    __slots__ = ("name", "salary", "url", "requirement")
 
     def __init__(
         self,
         name: str,
-        area_name: str,
-        salary: int,
         url: str,
+        salary: int,
         requirement: str,
     ) -> None:
-        self.name = self.__validate_str(name, "Название вакансии")
-        self.area_name = self.__validate_str(area_name, "Город вакансии")
-        self.salary = self.__validate_salary(salary)
+        self.name = self.__validate_name(name)
         self.url = self.__validate_url(url)
-        self.requirement = self.__validate_str(requirement, "Требования")
+        self.salary = self.__validate_salary(salary)
+        self.requirement = self.__validate_requirement(requirement)
 
     # VALIDATION
     @staticmethod
-    def __validate_str(value: str, field_name: str) -> str:
-        """Проверяет, является ли переданный объект непустой строкой."""
+    def __validate_name(value: str) -> str:
+        """Проверяет, является ли название вакансии непустой строкой."""
         if not isinstance(value, str) or not value.strip():
-            raise ValueError(f"Поле {field_name} должно быть непустой строкой.")
+            raise ValueError("Название вакансии должно быть непустой строкой.")
         return value.strip()
-
-    @staticmethod
-    def __validate_salary(value: int) -> int:
-        """Проверяет, указана ли зарплата, и является ли она положительным числом"""
-        if not isinstance(value, int) or value < 0:
-            raise ValueError("Зарплата должна быть положительным числом.")
-        return value
 
     @staticmethod
     def __validate_url(value: str) -> str:
@@ -40,6 +31,20 @@ class Vacancy:
         url_pattern = re.compile(r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.-]*)*\/?$")
         if not isinstance(value, str) or not url_pattern.match(value):
             raise ValueError("Некорректный URL.")
+        return value.strip()
+
+    @staticmethod
+    def __validate_salary(value: int) -> int:
+        """Проверяет, указана ли зарплата, и является ли она положительным числом, иначе возвращает 0."""
+        if not isinstance(value, int) or value < 0:
+            return 0
+        return value
+
+    @staticmethod
+    def __validate_requirement(value: str) -> str:
+        """Проверяет, является ли поле "Требования" непустой строкой."""
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError('Поле "Требования" должно быть непустой строкой.')
         return value.strip()
 
     # MAGIC METHODS FOR COMPARISON
