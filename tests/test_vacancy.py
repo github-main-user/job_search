@@ -238,3 +238,12 @@ def test_cast_to_object_list(vacancies_json: list[dict]) -> None:
         vc2.requirement == "Способен работать в команде. Способен принимать решения самостоятельно."
         " Готов учиться и узнавать новое. Опыт работы в колл-центре или службе..."
     )
+
+
+def test_vacancy_to_dict_cast(correct_vacancy: Vacancy) -> None:
+    vc_dict = correct_vacancy.to_dict()
+
+    assert correct_vacancy.name == vc_dict["name"]
+    assert correct_vacancy.url == vc_dict["url"]
+    assert correct_vacancy.salary == vc_dict["salary"]
+    assert correct_vacancy.requirement == vc_dict["requirement"]

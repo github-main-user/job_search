@@ -81,6 +81,7 @@ class Vacancy:
 
     @classmethod
     def cast_to_object_list(cls, vacancies_json: list[dict]) -> list["Vacancy"]:
+        """Преобразует список список словарей вакансий в список объектов этого класса."""
         return [
             cls(
                 name=vacancy.get("name", ""),
@@ -90,3 +91,12 @@ class Vacancy:
             )
             for vacancy in vacancies_json
         ]
+
+    def to_dict(self) -> dict:
+        """Преобразует текущий экземпляр вакансии в словарь."""
+        return {
+            "name": self.name,
+            "url": self.url,
+            "salary": self.salary,
+            "requirement": self.requirement,
+        }
