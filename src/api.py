@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 import requests
 
@@ -25,13 +26,13 @@ class HeadHunterAPI(APIParser):
         self.__headers = {"User-Agent": "HH-User-Agent"}
         self.__params = {"text": "", "per_page": 10}
 
-    def _connect(self) -> dict:
+    def _connect(self) -> dict | Any:
         """Загружает вакансии используя API hh.ru, возвращает полученный JSON."""
         response = requests.get(self.__url, headers=self.__headers, params=self.__params, timeout=5)
         response.raise_for_status()
         return response.json()
 
-    def get_vacancies(self, keyword: str) -> list:
+    def get_vacancies(self, keyword: str) -> list | Any:
         """
         Получает вакансии содержащие переданное ключевое слово, используя API hh.ru,
         возвращает список вакансий в формате JSON.

@@ -219,7 +219,7 @@ def test_salary_correct_comparison(correct_vacancy: Vacancy) -> None:
     assert (correct_vacancy >= other_vacancy) is False
 
 
-def test_cast_to_object_list(vacancies_json: list[dict]):
+def test_cast_to_object_list(vacancies_json: list[dict]) -> None:
     vc1, vc2 = Vacancy.cast_to_object_list(vacancies_json)
 
     assert vc1.name == "Тестировщик комфорта квартир"
