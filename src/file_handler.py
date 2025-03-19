@@ -2,7 +2,7 @@ import json
 from abc import ABC, abstractmethod
 from typing import Any
 
-from vacancy import Vacancy
+from .vacancy import Vacancy
 
 
 class VacancyFileHandler(ABC):
