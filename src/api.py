@@ -38,7 +38,7 @@ class HeadHunterAPI(APIParser):
         """
 
         try:
-            data = self._connect({"text": keyword, "count": count})
+            data = self._connect(params={"text": keyword, "per_page": count})
             return data.get("items", [])
         except requests.HTTPError:
             return []
