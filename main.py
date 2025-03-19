@@ -22,13 +22,14 @@ def user_interaction() -> None:
     vacancies_json = hh_api.get_vacancies(search_query, top_n)
 
     # Преобразование в список объектов
-    vancancies_object_list = Vacancy.cast_to_object_list(vacancies_json)
+    vacancies = Vacancy.cast_to_object_list(vacancies_json)
 
     # Фильтрация по ключевому слову в описании
-    filtered_vacancies = [vc for vc in vancancies_object_list if filter_word.lower() in vc.requirement.lower()]
+    if filter_word:
+        vacancies = [vc for vc in vacancies if filter_word.lower() in vc.requirement.lower()]
 
     # Вывод на экран
-    print_vacancies(filtered_vacancies)
+    print_vacancies(vacancies)
 
 
 if __name__ == "__main__":
