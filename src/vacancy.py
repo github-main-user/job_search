@@ -1,3 +1,6 @@
+from typing import Self
+
+
 class Vacancy:
     """Класс описывает вакансию, при инициализации валидирует аттрибуты."""
 
@@ -80,13 +83,13 @@ class Vacancy:
     # GENERAL METHODS
 
     @classmethod
-    def cast_to_object_list(cls, vacancies_json: list[dict]) -> list["Vacancy"]:
+    def cast_to_object_list(cls, vacancies_json: list[dict]) -> list[Self]:
         """Преобразует список список словарей вакансий в список объектов этого класса."""
         return [
             cls(
                 name=vacancy.get("name", ""),
                 url=vacancy.get("url", ""),
-                salary=vacancy.get("salary", {}).get("from"),
+                salary=(vacancy.get("salary") or {}).get("from", 0),
                 requirement=vacancy.get("snippet", {}).get("requirement", ""),
             )
             for vacancy in vacancies_json
