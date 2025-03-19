@@ -50,7 +50,13 @@ class Vacancy:
         clean_text = re.sub(r"</?highlighttext>", "", value)
         return clean_text.strip()
 
-    # MAGIC METHODS FOR COMPARISON
+    # MAGIC METHODS
+
+    def __str__(self) -> str:
+        return f"""\
+Вакансия: {self.name} ({"Зарплата: " + str(self.salary) if self.salary else "Зарплата не указана"})
+Требования: {self.requirement}
+Ссылка на вакансию: {self.url}"""
 
     # ==
     def __eq__(self, other: object) -> bool:
