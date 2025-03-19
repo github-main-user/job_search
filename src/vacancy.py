@@ -1,3 +1,4 @@
+import re
 from typing import Self
 
 
@@ -29,8 +30,6 @@ class Vacancy:
     @staticmethod
     def __validate_url(value: str) -> str:
         """Проверяет переданный URL на корректность с помощью regex."""
-        import re
-
         url_pattern = re.compile(r"^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$")
         if not isinstance(value, str) or not url_pattern.match(value):
             raise ValueError("Некорректный URL.")
@@ -48,7 +47,8 @@ class Vacancy:
         """Проверяет, является ли поле "Требования" непустой строкой."""
         if not isinstance(value, str) or not value.strip():
             raise ValueError('Поле "Требования" должно быть непустой строкой.')
-        return value.strip()
+        clean_text = re.sub(r"</?highlighttext>", "", value)
+        return clean_text.strip()
 
     # MAGIC METHODS FOR COMPARISON
 
