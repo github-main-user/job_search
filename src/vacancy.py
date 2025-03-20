@@ -45,8 +45,13 @@ class Vacancy:
     @staticmethod
     def __validate_requirement(value: str) -> str:
         """Проверяет, является ли поле "Требования" непустой строкой."""
+        if value is None:
+            return "Не указаны."
+
         if not isinstance(value, str) or not value.strip():
             raise ValueError('Поле "Требования" должно быть непустой строкой.')
+
+        # Удалить теги <highlighttext> из рекомендаций.
         clean_text = re.sub(r"</?highlighttext>", "", value)
         return clean_text.strip()
 
@@ -96,7 +101,7 @@ class Vacancy:
                 name=vacancy.get("name", ""),
                 url=vacancy.get("url", ""),
                 salary=(vacancy.get("salary") or {}).get("from", 0),
-                requirement=vacancy.get("snippet", {}).get("requirement", ""),
+                requirement=vacancy.get("snippet", {}).get("requirement"),
             )
             for vacancy in vacancies_json
         ]
