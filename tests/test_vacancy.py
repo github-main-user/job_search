@@ -160,7 +160,7 @@ def test_wrong_name_validation() -> None:
         Vacancy(None, "https://test.url.com", 100000, "R")  # type: ignore
 
     with pytest.raises(ValueError):
-        Vacancy(None, "https://test.url.com", 100000, "R")  # type: ignore
+        Vacancy("", "https://test.url.com", 100000, "R")  # type: ignore
 
 
 def test_wrong_url_validation() -> None:
@@ -181,10 +181,16 @@ def test_wrong_salary_validation() -> None:
 
 def test_wrong_requirement_validation() -> None:
     with pytest.raises(ValueError):
-        Vacancy(None, "https://test.url.com", 100000, "")  # type: ignore
+        Vacancy("N", "https://test.url.com", 100000, "")  # type: ignore
 
     with pytest.raises(ValueError):
-        Vacancy(None, "https://test.url.com", 100000, None)  # type: ignore
+        Vacancy("N", "https://test.url.com", 100000, 123)  # type: ignore
+
+
+def test_requirement_is_none() -> None:
+    vc = Vacancy("N", "https://test.url.com", 10000, None)
+
+    assert vc.requirement == "Не указаны."
 
 
 def test_salary_comparison_wrong_type(correct_vacancy: Vacancy) -> None:

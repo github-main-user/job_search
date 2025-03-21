@@ -12,12 +12,12 @@ class Vacancy:
         name: str,
         url: str,
         salary: int,
-        requirement: str,
+        requirement: str | None,
     ) -> None:
         self.name = self.__validate_name(name)
         self.url = self.__validate_url(url)
         self.salary = self.__validate_salary(salary)
-        self.requirement = self.__validate_requirement(requirement)
+        self.requirement: str = self.__validate_requirement(requirement)
 
     # VALIDATION
     @staticmethod
@@ -43,13 +43,16 @@ class Vacancy:
         return value
 
     @staticmethod
-    def __validate_requirement(value: str) -> str:
-        """Проверяет, является ли поле "Требования" непустой строкой."""
+    def __validate_requirement(value: str | None) -> str:
+        """
+        Проверяет, является ли поле "Требования" непустой строкой.
+        В случае None, выставляет значение в "Не указаны".
+        """
         if value is None:
             return "Не указаны."
 
         if not isinstance(value, str) or not value.strip():
-            raise ValueError('Поле "Требования" должно быть непустой строкой.')
+            raise ValueError('Поле "Требования" должно быть непустой строкой или None.')
 
         # Удалить теги <highlighttext> из рекомендаций.
         clean_text = re.sub(r"</?highlighttext>", "", value)
