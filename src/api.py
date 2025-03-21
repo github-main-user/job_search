@@ -26,7 +26,7 @@ class HeadHunterAPI(APIParser):
         self.__headers = {"User-Agent": "HH-User-Agent"}
         self.__params: dict = {"per_page": 100}
 
-    def _connect(self) -> dict:
+    def _connect(self) -> dict | Any:
         """Загружает вакансии используя API hh.ru, возвращает полученный JSON."""
         try:
             response = requests.get(self.__url, headers=self.__headers, params=self.__params, timeout=5)
