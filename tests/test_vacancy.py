@@ -253,3 +253,14 @@ def test_vacancy_to_dict_cast(correct_vacancy: Vacancy) -> None:
     assert correct_vacancy.url == vc_dict["url"]
     assert correct_vacancy.salary == vc_dict["salary"]
     assert correct_vacancy.requirement == vc_dict["requirement"]
+
+
+def test__str__method(correct_vacancy: Vacancy) -> None:
+    vc = correct_vacancy
+    assert (
+        str(vc)
+        == f"""\
+Вакансия: {vc.name} ({"Зарплата: " + str(vc.salary) if vc.salary else "Зарплата не указана"})
+Требования: {vc.requirement}
+Ссылка на вакансию: {vc.url}"""
+    )
