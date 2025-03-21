@@ -6,8 +6,8 @@ hh_api = HeadHunterAPI()
 
 
 def print_vacancies(vacancies: list[Vacancy]) -> None:
-    """Выводит вакансии в stdout, при этом форматируя вывод."""
-    print(f"\nПо данному запросу найдено {len(vacancies)}, с использованием API HeadHanter", end="\n\n")
+    """Выводит вакансии в stdout."""
+    print(f"\nПо данному запросу удалось найти {len(vacancies)} вакансий, с использованием API HeadHanter", end="\n\n")
 
     for vacancy in vacancies:
         print(vacancy, end="\n\n")
@@ -19,18 +19,24 @@ def user_interaction() -> None:
     filter_word = input("Введите ключевое слово, для фильтрации по требованиям: ")
 
     # Получение вакансий
-    vacancies_json = hh_api.get_vacancies(search_query, top_n)
+    vacancies_dict = hh_api.get_vacancies(search_query)
 
     # Преобразование в список объектов
-    vacancies = Vacancy.cast_to_object_list(vacancies_json)
+    vacancies = Vacancy.cast_to_object_list(vacancies_dict)
 
     # Фильтрация по ключевому слову в описании
     if filter_word:
         vacancies = [vc for vc in vacancies if filter_word.lower() in vc.requirement.lower()]
 
+    # Сортировка по зарплате
+    vacancies.sort(key=lambda x: x.salary, reverse=True)
+
     # Вывод на экран
-    print_vacancies(vacancies)
+    print_vacancies(vacancies[:top_n])
 
 
 if __name__ == "__main__":
-    user_interaction()
+    try:
+        user_interaction()
+    except KeyboardInterrupt:
+        print()
